@@ -58,7 +58,12 @@ export default class BaseResponse extends Error {
         error: null
       })
     }
-  
+  async logger (e, response) {
+    response.status(500).send({
+      message: 'Server temporary unavailable',
+      error: null
+    })
+  }
     async DBErrorResponse (e, response) {
       response.status(500).send({
         message: 'Server temporary unavailable',

@@ -16,7 +16,6 @@ export default class BasicAuthMiddleware extends BaseResponse {
 
     decode = (token) => {
         const tokenTo = Buffer.from(token, 'base64');
-        const res = tokenTo.toString('utf8').split(':');
-
+        const res = tokenTo.toString('utf8').split(process.env.BASIC_SPLIT.toString());
     }
 }
