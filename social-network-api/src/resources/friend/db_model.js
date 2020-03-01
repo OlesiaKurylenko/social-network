@@ -1,5 +1,5 @@
 import Sequelize from "sequelize";
-import { sequelize } from "../../middleware/sequelize";
+import { sequelize } from "../../services/sequelize";
 import UserModel from "../user/db_model";
 
 export default class FriendModel extends Sequelize.Model {}
