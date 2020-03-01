@@ -32,14 +32,3 @@ export const sequelize = new Sequelize(
     }
   }
 );
-
-const models = {
-  user: require("../../resources/user/db_model"),
-  request: require("../../resources/request/db_model"),
-  friend: require("../../resources/friend/db_model")
-};
-
-models.sequelize = sequelize;
-models.Sequelize = Sequelize;
-
-export default models;
