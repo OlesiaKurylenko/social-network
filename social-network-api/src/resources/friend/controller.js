@@ -5,7 +5,7 @@ export default class FriendController extends BaseResponse {
     getFriends = async (req, res) => {
         try {
             const { userId } = req
-            const data = await FriendService.getFriends(userId)
+            const data = await FriendService.getFriendsQuery(userId)
             await this.response(null, res, data)
         } catch (e) {
             await this.response(e, res, null)

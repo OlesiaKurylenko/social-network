@@ -21,6 +21,21 @@ r.friend_id = ${friend_id} ) OR (r.user_id = ${friend_id} and
 r.friend_id = ${user_id} );
     `, { type: sequelize.QueryTypes.query });
   }
+  static async getFriendsQuery(user_id) {
+    return sequelize.query(` 
+ select 
+id,
+avatar,
+login,
+first_name,
+last_name,
+user_id ,
+friend_id 
+ from "friend" 
+inner join "user" on (user_id = id and user_id<>${user_id})or (friend_id = id and friend_id<>${user_id})
+where user_id = ${user_id} or friend_id = ${user_id}
+    `, { type: sequelize.QueryTypes.query });
+  }
 }
 FriendModel.init(
   {

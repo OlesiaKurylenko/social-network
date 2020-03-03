@@ -30,6 +30,24 @@ export default class RequestService {
         }
     }
 
+    static async getPendingRequestsQuery(user_id) {
+        try {
+
+            return RequestModel.getPendingRequestsQuery(user_id);
+        }
+        catch (e) {
+            throw new DataError(405, 'Cannot return pending requests')
+        }
+    }
+    static async getIncomingRequestsQuery(user_id) {
+        try {
+            return RequestModel.getIncomingRequestsQuery(user_id)
+        }
+        catch (e) {
+            throw new DataError(405, 'Cannot return incoming requests')
+        }
+    }
+
     static async addRequest({ user_id, friend_id }) {
         try {
             let result = null;
