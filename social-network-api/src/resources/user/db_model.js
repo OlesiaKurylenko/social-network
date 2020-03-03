@@ -20,7 +20,7 @@ export default class UserModel extends Sequelize.Model {
             (u.id = r.user_id or u.id = r.friend_id ) and (r.user_id = ${user_id} or r.friend_id = ${user_id})
             LEFT JOIN "friend" f ON
             (u.id = f.user_id or u.id = f.friend_id ) and (f.user_id = ${user_id} or f.friend_id = ${user_id})
-            where u.login <> '${login}' and u.first_name like '${first_name}%' and u.last_name like '${last_name}%'
+            where u.login <> '${login}' and u.first_name ilike '${first_name}%' and u.last_name ilike '${last_name}%'
     `, { type: sequelize.QueryTypes.SELECT });
   }
 }
