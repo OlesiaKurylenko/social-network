@@ -5,14 +5,24 @@ export default class AuthService {
     try {
       const user = await UserModel.findOne({
         where: { login: login },
-        attributes: ["first_name", "last_name", "login"]
+        attributes: ["id", "avatar", "first_name", "last_name", "login"]
       });
       return user;
     } catch (e) {
       throw Error(e);
     }
   }
-  static async test() {
-    return "user";
+  static async verify(login, password) {
+    try {
+      const user = await UserModel.findOne({
+        where: [{ login: login }, { password: password }],
+        attributes: ["id"]
+      });
+      if (user)
+        return true;
+      return false;
+    } catch (e) {
+      throw Error(e);
+    }
   }
 }

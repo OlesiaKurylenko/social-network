@@ -10,7 +10,7 @@ export default class AuthController extends BaseResponse {
       const user = await AuthService.login(login, password);
       const token = await BasicAuthMiddleware.generateToken(
         user.login,
-        user.password
+        password
       );
       await this.response(null, res, {
         token,
