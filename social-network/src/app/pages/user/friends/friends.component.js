@@ -8,6 +8,12 @@ class FriendsComponent extends SNComponent {
         this.incomingList = [];
         this.outgoingList = [];
         this.friendList = [];
+
+        this.loading = {
+            incoming: false,
+            outgoing: false,
+            friend: false
+        }
         this.user = null;
         this.data = {
             html_templ_incom: '',
@@ -26,12 +32,13 @@ class FriendsComponent extends SNComponent {
         }
     }
     renderComponent() {
+        if (!!this.loading.incoming && !!this.loading.outgoing && !!this.loading.friend) {
+            this.data.html_templ_incom = friendsService.renderComponent(this.incomingList, this.user, 'incoming');
+            this.data.html_templ_out = friendsService.renderComponent(this.outgoingList, this.user, 'outgoing');
+            this.data.html_templ_friend = friendsService.renderComponent(this.friendList, this.user, 'friends');
 
-        this.data.html_templ_incom = friendsService.renderComponent(this.incomingList, this.user, 'incoming');
-        this.data.html_templ_out = friendsService.renderComponent(this.outgoingList, this.user, 'outgoing');
-        this.data.html_templ_friend = friendsService.renderComponent(this.friendList, this.user, 'friends');
-        this.render();
-
+            this.render();
+        }
     }
     getResources() {
         this.getIncomingList(this.user.id);
@@ -41,8 +48,7 @@ class FriendsComponent extends SNComponent {
     getIncomingList(user_id) {
         http.get(`api/requests/incoming/${user_id}`, {}, true, {}).then(res => {
             if (res.message === "Success") {
-                console.log(res.data)
-                console.log(res.data[0])
+                this.loading.incoming = true;
                 this.incomingList = res.data;
                 this.renderComponent();
             }
@@ -52,6 +58,7 @@ class FriendsComponent extends SNComponent {
     getOutgoingList(user_id) {
         http.get(`api/requests/pending/${user_id}`, {}, true, {}).then(res => {
             if (res.message === "Success") {
+                this.loading.outgoing = true;
                 this.outgoingList = res.data;
                 this.renderComponent();
             }
@@ -61,6 +68,7 @@ class FriendsComponent extends SNComponent {
     getFriendList(user_id) {
         http.get(`api/friends/${user_id}`, {}, true, {}).then(res => {
             if (res.message === "Success") {
+                this.loading.friend = true;
                 this.friendList = res.data;
                 this.renderComponent();
             }

@@ -1,5 +1,6 @@
 
-const API_URL = "http://localhost:3000/"
+import { ENV } from "../../const/const"
+const API_URL = ENV.API_URL;
 class Http {
 
     constructor() { }

@@ -1,9 +1,10 @@
 import { http } from "@socialNetwork";
+import { ENV } from "../../../../const/const"
 
 class FriendsService {
     getTemplate() {
         return `<div class="media text-muted pt-3">
-          <img src="http://localhost:3000/{{avatar}}" alt="32x32" class="mr-2 rounded" style="width: 64px; height: 64px;">
+          <img src="${ENV.API_URL}{{avatar}}" alt="32x32" class="mr-2 rounded" style="width: 64px; height: 64px;">
           <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
             <div class="d-flex justify-content-between align-items-center w-100">
               <strong class="text-gray-dark">{{firstname}} {{lastname}}</strong>
@@ -59,7 +60,6 @@ class FriendsService {
         return templ;
     }
     async processButtonClick(friend_id, action, user_id) {
-        console.log(friend_id, action, user_id)
         switch (action) {
             case 'cancel-request-friend':
                 return await http.put('api/request/skip', { user_id, friend_id }, true, {});
