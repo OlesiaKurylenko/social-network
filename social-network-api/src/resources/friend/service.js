@@ -71,4 +71,15 @@ export default class FriendService {
         }
     }
 
+    static async deleteFriendQeury({ user_id, friend_id }) {
+        try {
+            await FriendModel.DeleteFriend(user_id, friend_id);
+            return true;
+        }
+        catch (err) {
+            throw new DataError(405, 'Cannot delete Friend. ')
+        }
+
+    }
+
 }
