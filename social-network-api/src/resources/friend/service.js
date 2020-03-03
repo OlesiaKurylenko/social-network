@@ -17,6 +17,15 @@ export default class FriendService {
             throw new DataError(405, e)
         }
     }
+    static async getFriendsQuery(user_id) {
+        try {
+            const data = await FriendModel.getFriendsQuery(user_id)
+            return data;
+        }
+        catch (e) {
+            throw new DataError(405, e)
+        }
+    }
     static async addFriend({ user_id, friend_id }) {
         try {
             const finded = await FriendModel.findOne({ user_id, friend_id }, {

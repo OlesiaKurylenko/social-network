@@ -5,7 +5,7 @@ export default class RequestController extends BaseResponse {
     getPendingRequests = async (req, res) => {
         try {
             const { userId } = req
-            const data = await RequestService.getPendingRequests(userId)
+            const data = await RequestService.getPendingRequestsQuery(userId)
             await this.response(null, res, data)
         } catch (e) {
             await this.response(e, res, null)
