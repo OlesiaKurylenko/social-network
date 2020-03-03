@@ -63,7 +63,6 @@ class UserService {
     }
 
     async processFriend(friend_id, action, user_id) {
-        console.log(friend_id, action, user_id)
         switch (action) {
             case 'cancel-request-friend':
                 return await http.put('api/request/skip', { user_id, friend_id }, true, {});

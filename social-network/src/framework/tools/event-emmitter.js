@@ -8,7 +8,6 @@ export class EventEmitter {
         if (isUndefined(this.listeners[eventName])) this.listeners[eventName] = [];
 
         this.listeners[eventName].push(func)
-        console.log('this.listeners[eventName]', this.listeners[eventName])
     }
     emit(eventName, data) {
         if (isUndefined(this.listeners[eventName])) return;
