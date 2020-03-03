@@ -7,4 +7,5 @@ const router = Router();
 const userController = new UserController();
 const { validate } = new Validator();
 router.get("/users", validate({ schema: FilterSchema, query: 'query' }), userController.getUsersList);
+
 export default router;

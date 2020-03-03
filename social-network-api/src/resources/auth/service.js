@@ -15,7 +15,7 @@ export default class AuthService {
   static async verify(login, password) {
     try {
       const user = await UserModel.findOne({
-        where: [{ login: login }, { password: password }],
+        where: { login: login, password: password },
         attributes: ["id"]
       });
       if (user)
