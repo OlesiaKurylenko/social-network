@@ -4,8 +4,8 @@ import RequestService from "./service"
 export default class RequestController extends BaseResponse {
     getPendingRequests = async (req, res) => {
         try {
-            const { userId } = req
-            const data = await RequestService.getPendingRequestsQuery(userId)
+            const { user_id } = req
+            const data = await RequestService.getPendingRequestsQuery(user_id)
             await this.response(null, res, data)
         } catch (e) {
             await this.response(e, res, null)
@@ -13,8 +13,8 @@ export default class RequestController extends BaseResponse {
     }
     getIncomingRequests = async (req, res) => {
         try {
-            const { userId } = req
-            const data = await RequestService.getIncomingRequests(userId)
+            const { user_id } = req
+            const data = await RequestService.getIncomingRequestsQuery(user_id)
             await this.response(null, res, data)
         } catch (e) {
             await this.response(e, res, null)

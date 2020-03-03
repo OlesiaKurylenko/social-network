@@ -4,8 +4,9 @@ import FriendService from "./service"
 export default class FriendController extends BaseResponse {
     getFriends = async (req, res) => {
         try {
-            const { userId } = req
-            const data = await FriendService.getFriendsQuery(userId)
+            const { user_id } = req
+            const data = await FriendService.getFriendsQuery(user_id)
+            console.log('getFriends', data)
             await this.response(null, res, data)
         } catch (e) {
             await this.response(e, res, null)

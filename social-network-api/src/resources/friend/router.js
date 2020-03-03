@@ -9,7 +9,7 @@ const { validate } = new Validator();
 const paramId = 'user_id'
 const paramId2 = 'friend_id'
 
-privateRouter.get('/friends/:userId', validate({ paramId }), controller.getFriends)
+privateRouter.get('/friends/:user_id', validate({ paramId }), controller.getFriends)
 privateRouter.put('/friend', validate({ schema: AddFriendSchema }), controller.addFriend)
 privateRouter.delete('/friends/:user_id/:friend_id', validate({ paramId }), controller.deleteFriend)
 

@@ -34,7 +34,7 @@ friend_id
  from "friend" 
 inner join "user" on (user_id = id and user_id<>${user_id})or (friend_id = id and friend_id<>${user_id})
 where user_id = ${user_id} or friend_id = ${user_id}
-    `, { type: sequelize.QueryTypes.query });
+    `, { type: sequelize.QueryTypes.SELECT });
   }
 }
 FriendModel.init(
