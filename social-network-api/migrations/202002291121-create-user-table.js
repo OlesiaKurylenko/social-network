@@ -23,6 +23,10 @@ module.exports = {
         },
         password: {
           type: Sequelize.STRING,
+          allowNull: false
+        },
+        avatar: {
+          type: Sequelize.STRING,
           allowNull: true
         },
         created_at: {

@@ -8,6 +8,7 @@ module.exports = {
         last_name: "Doe",
         login: "john@gmail.com",
         password: "123123",
+        avatar: '1.png',
         created_at: new Date(),
         updated_at: new Date(),
         deleted_at: null
@@ -17,6 +18,7 @@ module.exports = {
         last_name: "Doe",
         login: "j@gmail.com",
         password: "123123",
+        avatar: '2.png',
         created_at: new Date(),
         updated_at: new Date(),
         deleted_at: null
@@ -26,6 +28,7 @@ module.exports = {
         last_name: "Doe",
         login: "johnny@gmail.com",
         password: "123123",
+        avatar: '3.png',
         created_at: new Date(),
         updated_at: new Date(),
         deleted_at: null
@@ -35,6 +38,7 @@ module.exports = {
         last_name: "Doe",
         login: "johann@gmail.com",
         password: "123123",
+        avatar: '4.png',
         created_at: new Date(),
         updated_at: new Date(),
         deleted_at: null
@@ -44,6 +48,7 @@ module.exports = {
         last_name: "Smith",
         login: "james@gmail.com",
         password: "123123",
+        avatar: '5.png',
         created_at: new Date(),
         updated_at: new Date(),
         deleted_at: null
@@ -53,6 +58,7 @@ module.exports = {
         last_name: "Doe",
         login: "jira@gmail.com",
         password: "123123",
+        avatar: '6.png',
         created_at: new Date(),
         updated_at: new Date(),
         deleted_at: null
@@ -62,6 +68,7 @@ module.exports = {
         last_name: "Doe",
         login: "jerry@gmail.com",
         password: "123123",
+        avatar: '7.png',
         created_at: new Date(),
         updated_at: new Date(),
         deleted_at: null
@@ -71,6 +78,7 @@ module.exports = {
         last_name: "Doe",
         login: "Jane@gmail.com",
         password: "123123",
+        avatar: '8.png',
         created_at: new Date(),
         updated_at: new Date(),
         deleted_at: null
