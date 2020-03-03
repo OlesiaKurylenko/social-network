@@ -23,7 +23,7 @@ export default class FriendController extends BaseResponse {
     deleteFriend = async (req, res) => {
         try {
             const { user_id, } = req
-            const { friend_id } = req.params
+            const { friend_id } = req.params;
             const data = await FriendService.deleteFriendQeury(user_id, friend_id)
             await this.response(null, res, data)
         } catch (e) {

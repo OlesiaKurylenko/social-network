@@ -71,7 +71,7 @@ export default class FriendService {
         }
     }
 
-    static async deleteFriendQeury({ user_id, friend_id }) {
+    static async deleteFriendQeury(user_id, friend_id) {
         try {
             await FriendModel.DeleteFriend(user_id, friend_id);
             return true;
