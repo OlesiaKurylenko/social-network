@@ -1,4 +1,5 @@
 import BaseResponse from "../../middleware/base-response";
+import RequestService from "./service"
 
 export default class RequestController extends BaseResponse {
     getPendingRequests = async (req, res) => {
@@ -31,7 +32,7 @@ export default class RequestController extends BaseResponse {
     approveRequest = async (req, res) => {
         try {
             const body = req.body;
-            const data = await RequestService.approveRequest(body)
+            const data = await RequestService.approveRequestQuery(body)
             await this.response(null, res, data)
         } catch (e) {
             await this.response(e, res, null)

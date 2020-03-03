@@ -1,5 +1,6 @@
 import NotFoundProvider from '../../response-errors/not-found-error'
 import FriendModel from './db_model'
+import DataError from '../../response-errors/database-error'
 
 export default class FriendService {
 
@@ -7,36 +8,66 @@ export default class FriendService {
         try {
             const data = await FriendModel.findAll({
                 where: { user_id },
-                [Op.or]: { friend_id: user_id }
+                [Op.or]: { friend_id: user_id },
+                attributes: ["friend_id", "user_id"]
             })
-            this.response(null, res, data)
+            return data;
         }
         catch (e) {
-            this.response(e, res, null)
+            throw new DataError(405, e)
         }
     }
-    static async addFriend({ user_id, friend_id }, transaction) {
+    static async addFriend({ user_id, friend_id }) {
         try {
-            const data = await FriendModel.findOrCreate({
+            const finded = await FriendModel.findOne({ user_id, friend_id }, {
                 where: { user_id: user_id, friend_id: friend_id },
-                [Op.or]: { friend_id: userId, user_id: friend_id }
-            }, { returning: true, transaction })
-            this.response(null, res, data)
+                attributes: ["friend_id", "user_id"]
+            });
+            if (!finded)
+                return await FriendModel.create({ user_id, friend_id });
+            else {
+                finded = await FriendModel.findOne({ user_id, friend_id }, {
+                    where: { friend_id: userId, user_id: friend_id },
+                    attributes: ["friend_id", "user_id"]
+                });
+                if (!finded)
+                    return await FriendModel.create({ friend_id: userId, user_id: friend_id });
+            }
+            throw new DataError(405, 'Cannot add friende.')
         }
         catch (e) {
-            this.response(e, res, null)
+            throw new DataError(405, e)
         }
     }
     static async deleteFriend({ user_id, friend_id }) {
         try {
-            const data = await FriendModel.destroy({
-                where: { user_id: user_id, friend_id: friend_id },
-                [Op.or]: { friend_id: userId, user_id: friend_id }
-            }, { returning: true })
-            this.response(null, res, data)
+            let data = null;
+            const user = await FriendModel.findOne({
+                where: { user_id, friend_id },
+                attributes: ["friend_id"]
+            });
+            if (user) {
+                data = await FriendModel.destroy({
+                    where: { user_id: user_id, friend_id: friend_id }
+                }, { returning: true })
+                return data;
+            }
+            else {
+                const user3 = await FriendModel.findOne({
+                    where: { friend_id: userId, user_id: friend_id },
+                    attributes: ["friend_id"]
+                });
+                if (user3) {
+                    data = await FriendModel.destroy({
+                        where: { friend_id: userId, user_id: friend_id }
+                    }, { returning: true })
+                    return data;
+                }
+                throw new DataError(405, 'Cannot delete Friend. ')
+            }
         }
         catch (e) {
-            this.response(e, res, null)
+            throw new DataError(405, 'Cannot delete request. ')
         }
     }
 

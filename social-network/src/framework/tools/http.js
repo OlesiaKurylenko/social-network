@@ -16,8 +16,8 @@ class Http {
         return request(url, 'PUT', body, isSecurity, param);
     }
 
-    delete(url, isSecurity = true, param) {
-        return request(url, 'DELETE', param, isSecurity, param);
+    delete(url, body, isSecurity = true, param) {
+        return request(url, 'DELETE', body, isSecurity, param);
     }
     getUrlImage(name) {
         return API_URL + name;
@@ -36,13 +36,13 @@ const request = (url, method = 'GET', body, isSecurity = true, param) => {
 
     Object.assign(fetchOpts, getOptions(isSecurity));
     let urlParam;
-    if (param) {
+    if (param && Object.keys(param).length > 0) {
         urlParam = new URLSearchParams({
             ...param,
-            user_id: JSON.parse(localStorage.getItem('user')).id
         })
     }
-    const promise = fetch(`${API_URL}${url}?${urlParam}`, fetchOpts)
+    //const urlFeath = 
+    const promise = fetch(`${API_URL}${url}${urlParam ? '?' + urlParam : ''}`, fetchOpts)
         .then(response => response.json())
         .then((data) => {
             console.log('fett', data)
