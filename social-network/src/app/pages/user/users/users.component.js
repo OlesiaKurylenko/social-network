@@ -27,8 +27,11 @@ class UsersComponent extends SNComponent {
 
   getUsers(first_name, last_name) {
     http.get('api/users', true, { first_name, last_name, user_id: this.user.id }).then(res => {
-      this.userList = res.data;
-      this.renderComponent();
+      if (res.message === "Success") {
+        this.userList = res.data;
+        this.renderComponent();
+      }
+
     }).catch(err => {
       this.userList = [];
     })
