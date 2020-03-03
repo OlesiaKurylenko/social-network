@@ -6,11 +6,11 @@ import Validator from "../../middleware/validator";
 const privateRouter = Router();
 const controller = new FriendController()
 const { validate } = new Validator();
-const paramId = 'userId'
-const paramId2 = 'friendId'
+const paramId = 'user_id'
+const paramId2 = 'friend_id'
 
 privateRouter.get('/friends/:userId', validate({ paramId }), controller.getFriends)
 privateRouter.put('/friend', validate({ schema: AddFriendSchema }), controller.addFriend)
-privateRouter.delete('/friends/:userId/:friendId', validate({ paramId, paramId2 }), controller.deleteFriend)
+privateRouter.delete('/friends/:user_id/:friend_id', validate({ paramId }), controller.deleteFriend)
 
 export default privateRouter;

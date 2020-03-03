@@ -3,7 +3,6 @@ import { sequelize } from "../../services/sequelize";
 
 export default class UserModel extends Sequelize.Model {
   static async getUsersList(login, first_name, last_name, user_id) {
-    console.log('UserModel', login, first_name, last_name, user_id)
     return sequelize.query(`
          select
             u.id,
@@ -70,7 +69,7 @@ UserModel.init(
     sequelize,
     modelName: "user",
     underscored: true,
-    paranoid: true,
+    paranoid: false,
     timestamps: true
   }
 );

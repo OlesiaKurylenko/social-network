@@ -2,7 +2,7 @@ import Sequelize from "sequelize";
 import { sequelize } from "../../services/sequelize";
 import UserModel from "../user/db_model";
 
-export default class RequestModel extends Sequelize.Model {}
+export default class RequestModel extends Sequelize.Model { }
 
 RequestModel.init(
   {
@@ -41,7 +41,7 @@ RequestModel.init(
     sequelize,
     modelName: "request",
     underscored: true,
-    paranoid: true,
+    paranoid: false,
     timestamps: true
   }
 );
