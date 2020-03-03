@@ -34,7 +34,7 @@ module.exports = {
       },
       {
         underscored: true,
-        paranoid: true,
+        paranoid: false,
         timestamps: true,
         freezeTableName: true,
         tableName: "request"

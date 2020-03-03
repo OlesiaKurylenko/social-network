@@ -2,8 +2,26 @@ import Sequelize from "sequelize";
 import { sequelize } from "../../services/sequelize";
 import UserModel from "../user/db_model";
 
-export default class FriendModel extends Sequelize.Model {}
+export default class FriendModel extends Sequelize.Model {
+  static async approveRequestQuery(user_id, friend_id) {
+    return sequelize.query(`
+    START TRANSACTION;
+DELETE FROM "request" as r WHERE (r.user_id = ${user_id} and 
+r.friend_id = ${friend_id} ) OR (r.user_id = ${friend_id} and 
+r.friend_id = ${user_id} );
+INSERT INTO "friend" (user_id,friend_id) VALUES (${user_id},${friend_id});
+COMMIT;
+    `, { type: sequelize.QueryTypes.query });
+  }
 
+  static async DeleteFriend(user_id, friend_id) {
+    return sequelize.query(` 
+DELETE FROM "friend" as r WHERE (r.user_id = ${user_id} and 
+r.friend_id = ${friend_id} ) OR (r.user_id = ${friend_id} and 
+r.friend_id = ${user_id} );
+    `, { type: sequelize.QueryTypes.query });
+  }
+}
 FriendModel.init(
   {
     user_id: {
@@ -41,7 +59,7 @@ FriendModel.init(
     sequelize,
     modelName: "friend",
     underscored: true,
-    paranoid: true,
+    paranoid: false,
     timestamps: true
   }
 );

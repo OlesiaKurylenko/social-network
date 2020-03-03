@@ -1,5 +1,5 @@
 
-import NotFoundProvider from '../../response-errors/not-found-error'
+import DataError from '../../response-errors/database-error'
 import UserModel from './db_model'
 
 export default class UserService {

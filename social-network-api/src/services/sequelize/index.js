@@ -25,7 +25,7 @@ export const sequelize = new Sequelize(
     },
     define: {
       engine: "InnoDB",
-      paranoid: true,
+      paranoid: false,
       timestamps: true,
       underscored: true,
       freezeTableName: true

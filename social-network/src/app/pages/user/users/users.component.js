@@ -1,5 +1,6 @@
 import { SNComponent, router } from "@socialNetwork";
 import { http } from "../../../../framework";
+import { userService } from "./user.service";
 
 class UsersComponent extends SNComponent {
   constructor(config) {
@@ -7,75 +8,25 @@ class UsersComponent extends SNComponent {
     this.userList = [];
     this.user = null;
     this.data = { html_templ: '' }
+    this.search = {
+      first_name: '',
+      last_name: ''
+    }
   }
   afterInit() {
     this.user = JSON.parse(localStorage.getItem('user'));
-    this.getUsers('', '');
+    this.getUsers(this.search.first_name, this.search.last_name);
 
   }
   renderComponent() {
-    let templ = '';
-    this.userList.forEach(el => {
-
-      let textButt = '';
-      let typeButt = '';
-      let idbutton = '';
-      let added = ''
-      if (el.request_user_id === null && el.friend_user_id === null) {
-        textButt = 'Add friend';
-        typeButt = 'primary';
-        idbutton = `${el.id}_add-friend_${this.user.id}`;
-      }
-      if (el.request_user_id === null && (el.friend_user_id === this.user.id || el.friend_friend_id === this.user.id)) {
-        textButt = 'Remove friend';
-        typeButt = 'secondary';
-        idbutton = `${el.id}_remove-friend_${this.user.id}`;
-        added = `<span><i>friends</i><span>`
-      }
-      if (!!el.request_user_id && el.request_user_id !== this.user.id && el.request_friend_id === this.user.id) {
-        textButt = 'Ignore';
-        typeButt = 'danger';
-        idbutton = `${el.id}_ignore-friend_${this.user.id}`;
-        added = `<spa><i>request </i></span><button id="${el.id}_accept-friend_${this.user.id}" type="button" class="btn btn-outline-success changed-status">Accept</button>`
-      }
-      if (!!el.request_user_id && el.request_user_id === this.user.id && el.request_friend_id !== this.user.id) {
-        textButt = 'Cancel request';
-        typeButt = 'warning';
-        idbutton = `${el.id}_cancel-request-friend_${this.user.id}`;
-        added = `<span><i>pending request</i><span>`
-      }
-
-      templ += this.getTemplate()
-        .replace('{{avatar}}', el.avatar)
-        .replace('{{firstname}}', el.first_name)
-        .replace('{{lastname}}', el.last_name)
-        .replace('{{login}}', el.login)
-        .replace('{{text}}', textButt)
-        .replace('{{buttontype}}', typeButt)
-        .replace('{{idbutton}}', idbutton)
-        .replace('{{}}', added);
-
-    });
+    let templ = userService.renderComponent(this.userList, this.user);
     this.data.html_templ = templ;
     this.render();
 
+  }
 
-  }
-  getTemplate() {
-    return `<div class="media text-muted pt-3">
-          <img src="http://localhost:3000/{{avatar}}" alt="32x32" class="mr-2 rounded" style="width: 64px; height: 64px;">
-          <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-            <div class="d-flex justify-content-between align-items-center w-100">
-              <strong class="text-gray-dark">{{firstname}} {{lastname}}</strong>
-              {{}}
-              <button id="{{idbutton}}" type="button" class="btn btn-outline-{{buttontype}} changed-status">{{text}}</button>
-            </div>
-            <span class="d-block">{{login}}</span>
-          </div>
-        </div>`;
-  }
   getUsers(first_name, last_name) {
-    http.get('api/users', true, { first_name, last_name }).then(res => {
+    http.get('api/users', true, { first_name, last_name, user_id: this.user.id }).then(res => {
       this.userList = res.data;
       this.renderComponent();
     }).catch(err => {
@@ -89,23 +40,38 @@ class UsersComponent extends SNComponent {
       'focusout .form-control': 'onLostFocus',
       'click .form-control-btn': 'onClear',
       'click .changed-status': 'onChangeStatus',
-
     }
   }
   onChangeStatus({ target }) {
-    console.log(target.id)
+    let res = target.id.split('_');
+
+    userService.processFriend(res[0], res[1], res[2]).then(res => {
+      console.log('processFriend', res)
+      this.getUsers(this.search.first_name, this.search.last_name);
+    })
     event.stopPropagation();
     event.preventDefault();
   }
   onClickFilter() {
     let firstName = document.getElementById('first_name')
     let lastname = document.getElementById('last_name')
+    if (firstName.value === this.search.first_name && lastname.value === this.search.last_name)
+      return;
+    this.search.first_name = firstName.value;
+    this.search.last_name = lastname.value;
     this.getUsers(firstName.value, lastname.value);
+    event.stopPropagation();
+    event.preventDefault();
   }
   onPressEnter(event) {
     if (event.keyCode == 13) {
       let firstName = document.getElementById('first_name')
       let lastname = document.getElementById('last_name')
+      if (firstName.value === this.search.first_name && lastname.value === this.search.last_name)
+        return;
+      this.search.first_name = firstName.value;
+      this.search.last_name = lastname.value;
+
       this.getUsers(firstName.value, lastname.value);
     }
 
@@ -115,11 +81,18 @@ class UsersComponent extends SNComponent {
   onLostFocus(event) {
     let firstName = document.getElementById('first_name')
     let lastname = document.getElementById('last_name')
+    if (firstName.value === this.search.first_name && lastname.value === this.search.last_name)
+      return;
+    this.search.first_name = firstName.value;
+    this.search.last_name = lastname.value;
+
     this.getUsers(firstName.value, lastname.value);
     event.stopPropagation();
     event.preventDefault();
   }
   onClear() {
+    this.search.first_name = '';
+    this.search.last_name = '';
     this.getUsers('', '');
     event.stopPropagation();
     event.preventDefault();
@@ -131,9 +104,6 @@ export const usersComponent = new UsersComponent({
     <div class="input-group">
       <div class="input-group-prepend">
         <span class="input-group-text" id="">First and last name
-              <a class="text-muted" aria-label="Search">
-                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24" focusable="false"><title>Search</title><circle cx="10.5" cy="10.5" r="7.5"></circle><path d="M21 21l-5.2-5.2"></path></svg>
-              </a>
         </span>
       </div>
           <input type="text" class="form-control" id="first_name" >
