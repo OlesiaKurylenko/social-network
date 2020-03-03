@@ -1,4 +1,4 @@
-import { http } from "../../../../framework";
+import { http } from "@socialNetwork";
 
 class UserService {
     getTemplate() {
