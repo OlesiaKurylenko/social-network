@@ -49,7 +49,6 @@ class UsersComponent extends SNComponent {
     let res = target.id.split('_');
 
     userService.processFriend(res[0], res[1], res[2]).then(res => {
-      console.log('processFriend', res)
       this.getUsers(this.search.first_name, this.search.last_name);
     })
     event.stopPropagation();

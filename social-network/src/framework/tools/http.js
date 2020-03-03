@@ -45,7 +45,6 @@ const request = (url, method = 'GET', body, isSecurity = true, param) => {
     const promise = fetch(`${API_URL}${url}${urlParam ? '?' + urlParam : ''}`, fetchOpts)
         .then(response => response.json())
         .then((data) => {
-            console.log('fett', data)
             if (data.error) {
                 return Promise.reject(data.error);
             }

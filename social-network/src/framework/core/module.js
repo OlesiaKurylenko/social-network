@@ -14,9 +14,8 @@ export class Module {
     }
     start() {
         initComponents(this.bootstrapComponent, this.components);
-        initRounting(this.routes, this.dispatcher,this.modules);
+        initRounting(this.routes, this.dispatcher, this.modules);
         this.dispatcher.on('routing', (obj) => {
-            console.log('dis',obj)
         })
     }
 }

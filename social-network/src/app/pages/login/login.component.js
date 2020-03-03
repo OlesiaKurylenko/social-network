@@ -41,13 +41,8 @@ class LoginComponent extends SNComponent {
                 }
 
             })
-            .catch(err => {
-                console.log('err', err);
-            })
-
     }
     result(result) {
-        // localStorage.setItem('token');
     }
 
 }
