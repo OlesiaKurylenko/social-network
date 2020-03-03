@@ -5,32 +5,33 @@ import UserModel from "../user/db_model";
 export default class RequestModel extends Sequelize.Model {
   static async getPendingRequestsQuery(user_id) {
     return sequelize.query(` 
- select 
-id,
-avatar,
-login,
-first_name,
-last_name,
-user_id ,
-friend_id 
- from "request" 
-inner join "user" on (user_id = id and user_id<>${user_id})
-where user_id = ${user_id} or friend_id = ${user_id}
+    select 
+      id,
+      avatar,
+      login,
+      first_name,
+      last_name,
+      user_id ,
+      friend_id 
+      from "request" 
+      inner join "user" on (friend_id = id)
+ where user_id = ${user_id} 
     `, { type: sequelize.QueryTypes.SELECT });
   }
   static async getIncomingRequestsQuery(user_id) {
     return sequelize.query(` 
- select 
-id,
-avatar,
-login,
-first_name,
-last_name,
-user_id ,
-friend_id 
- from "friend" 
-inner join "user" on (friend_id = id and friend_id<>${user_id})
-where user_id = ${user_id} or friend_id = ${user_id}
+    select 
+      id,
+      avatar,
+      login,
+      first_name,
+      last_name,
+      user_id ,
+      friend_id 
+      from "request" 
+      inner join "user" on (user_id = id)
+ where friend_id =${user_id} 
+      
     `, { type: sequelize.QueryTypes.SELECT });
   }
 }

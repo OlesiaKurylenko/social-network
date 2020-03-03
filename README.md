@@ -11,13 +11,7 @@ a platform, which contains two aplications:
 2)social-network - SPA web aplication on vanilla js
 
 ## Installation sources
-Clone repository git clone https://github.com/Bellisa/social-network.git 
-
-## Docker Compose Postgres SQL
-In terminal : 
-`cd ./postgre-docker`
-Set settings for connection to Postgres (POSTGRES_USER, POSTGRES_PASSWORD ets)
-`docker-compose -f docker-compose.yml up`
+Clone repository `git clone https://github.com/Bellisa/social-network.git`
 
 ### Next instructions:
 into the folders projects

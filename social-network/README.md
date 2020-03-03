@@ -1,13 +1,41 @@
 # Social Network
-# Global Requirements
 
 ## About
 This project - single page aplication and was generated with my custom framework @socialNetwork on Vanila js(seem like Angular).
 
-## Docker Compose Postgres SQL
-In terminal : 
-`cd ./postgre-docker`
-Set settings for connection to Postgres (POSTGRES_USER, POSTGRES_PASSWORD ets)
-`docker-compose -f docker-compose.yml up`
+## Start
+1. Install packages: `npm i `
 
-Execute the next command in the project's root folder:
+2. Run aplication `npm start`
+   
+3. Build aplication `npm build`
+
+aplication is running on <i>`http://localhost:4200`</i><br/>
+ - Port can change in webpack.config - <br/>
+  ` devServer: {
+    port: 4200
+  } `<br/>
+ - Api adress can change in `/const/const.js` API_URL: <i>`http://localhost:3000/`</i>
+
+## Tests users:
+1. `jerry@gmail.com`
+2. `j@gmail.com`
+3. `johnny@gmail.com`
+4. `johann@gmail.com`
+5. `james@gmail.com`
+6. `jira@gmail.com`
+7. `john@gmail.com`
+8. `Jane@gmail.com`<br/>
+
+    password is `123123`
+
+### Login Page
+<img src="../screen-shots/Screen2.png">
+
+### Users Page
+<img src="../screen-shots/Screen3.png">
+
+<img src="../screen-shots/Screen1.png">
+
+### Friends Page
+<img src="../screen-shots/Screen4.png">
