@@ -1,7 +1,7 @@
 # Social Network
 
 ## About
-This project - Rest api aplication on express
+This project - single page aplication and was generated with my custom framework @socialNetwork on Vanila js(seem like Angular).
 
 ## Start
 1. Install packages: `npm i `
