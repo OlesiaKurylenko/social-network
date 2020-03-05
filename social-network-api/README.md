@@ -1,7 +1,8 @@
 # Social Network
 
 ## About
-This project - single page aplication and was generated with my custom framework @socialNetwork on Vanila js(seem like Angular).
+This project - Rest api aplication on express
+
 
 ## Docker Compose Postgres SQL
 In terminal : 
