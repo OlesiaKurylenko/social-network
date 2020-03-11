@@ -12,27 +12,48 @@ class UsersComponent extends SNComponent {
       first_name: '',
       last_name: ''
     }
-this.state = {
-'first_name':this.search.first_name,
-'last_name':this.search.last_name
-}
   }
   afterInit() {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.getUsers(this.search.first_name, this.search.last_name);
 
   }
+  states() {
+    return {
+      'first_name': this.search.first_name,
+      'last_name': this.search.last_name
+    }
+  }
+  events() {
+    return {
+      'click .input-group-prepend': 'onClickFilter',
+      'keyup .form-control': 'onPressEnter',
+      'focusout .form-control': 'onLostFocus',
+      'click .form-control-btn': 'onClear',
+      'click .changed-status': 'onChangeStatus',
+    }
+  }
+
   renderComponent() {
     let templ = userService.renderComponent(this.userList, this.user);
     this.data.html_templ = templ;
     this.render();
 
+    this.renderStates();
+  }
+  renderStates() {
+    if (this.states()) {
+      let state = this.states();
+      Object.keys(state).forEach(el => {
+        this.renderstatesValue(el, state[el]);
+      })
+    }
+  }
+  renderstatesValue(id, value) {
+    let el = document.getElementById(id);
+    el.value = value;
 
   }
-renderInputs(id,value){
-let el = document.getElementById(id)
-
-}
   getUsers(first_name, last_name) {
     http.get('api/users', true, { first_name, last_name, user_id: this.user.id }).then(res => {
       if (res.message === "Success") {
@@ -45,15 +66,7 @@ let el = document.getElementById(id)
     })
   }
 
-  events() {
-    return {
-      'click .input-group-prepend': 'onClickFilter',
-      'keyup .form-control': 'onPressEnter',
-      'focusout .form-control': 'onLostFocus',
-      'click .form-control-btn': 'onClear',
-      'click .changed-status': 'onChangeStatus',
-    }
-  }
+
 
   onChangeStatus({ target }) {
     let res = target.id.split('_');
