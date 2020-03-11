@@ -13,8 +13,8 @@ class UsersComponent extends SNComponent {
       last_name: ''
     }
 this.state = {
-'input first_name':this.search.first_name,
-'input last_name':this.search.last_name
+'first_name':this.search.first_name,
+'last_name':this.search.last_name
 }
   }
   afterInit() {
@@ -27,8 +27,12 @@ this.state = {
     this.data.html_templ = templ;
     this.render();
 
-  }
 
+  }
+renderInputs(id,value){
+let el = document.getElementById(id)
+
+}
   getUsers(first_name, last_name) {
     http.get('api/users', true, { first_name, last_name, user_id: this.user.id }).then(res => {
       if (res.message === "Success") {
@@ -40,6 +44,7 @@ this.state = {
       this.userList = [];
     })
   }
+
   events() {
     return {
       'click .input-group-prepend': 'onClickFilter',
@@ -49,6 +54,7 @@ this.state = {
       'click .changed-status': 'onChangeStatus',
     }
   }
+
   onChangeStatus({ target }) {
     let res = target.id.split('_');
 
