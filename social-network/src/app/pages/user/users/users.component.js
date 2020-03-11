@@ -12,6 +12,10 @@ class UsersComponent extends SNComponent {
       first_name: '',
       last_name: ''
     }
+this.state = {
+'input first_name':this.search.first_name,
+'input last_name':this.search.last_name
+}
   }
   afterInit() {
     this.user = JSON.parse(localStorage.getItem('user'));
