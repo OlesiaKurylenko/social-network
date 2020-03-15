@@ -79,6 +79,8 @@ class FriendsComponent extends SNComponent {
         let res = target.id.split('_');
 
         friendsService.processButtonClick(res[0], res[1], res[2]).then(res => {
+            if (res.message === "Success")
+                this.getResources()
         })
         event.stopPropagation();
         event.preventDefault();
