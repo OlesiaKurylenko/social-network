@@ -16,11 +16,11 @@ export default class UserModel extends Sequelize.Model {
             f.friend_id as friend_friend_id
             from "user" u
             LEFT JOIN "request" r ON
-            (u.id = r.user_id or u.id = r.friend_id ) and (r.user_id = ${user_id} or r.friend_id = ${user_id})
+            (u.id = r.user_id or u.id = r.friend_id ) and (r.user_id = :user_id or r.friend_id = :user_id)
             LEFT JOIN "friend" f ON
-            (u.id = f.user_id or u.id = f.friend_id ) and (f.user_id = ${user_id} or f.friend_id = ${user_id})
-            where u.login <> '${login}' and u.first_name ilike '${first_name}%' and u.last_name ilike '${last_name}%'
-    `, { type: sequelize.QueryTypes.SELECT });
+            (u.id = f.user_id or u.id = f.friend_id ) and (f.user_id = :user_id or f.friend_id = :user_id)
+            where u.login <> :login and u.first_name ilike :first_name and u.last_name ilike :last_name
+    `, { replacements: { login, first_name: `${first_name}%`, last_name: `${last_name}%`, user_id }, type: sequelize.QueryTypes.SELECT });
   }
 }
 

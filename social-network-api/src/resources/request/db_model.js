@@ -15,8 +15,8 @@ export default class RequestModel extends Sequelize.Model {
       friend_id 
       from "request" 
       inner join "user" on (friend_id = id)
- where user_id = ${user_id} 
-    `, { type: sequelize.QueryTypes.SELECT });
+ where user_id = :user_id 
+    `, { replacements: { user_id: +user_id }, type: sequelize.QueryTypes.SELECT });
   }
   static async getIncomingRequestsQuery(user_id) {
     return sequelize.query(` 
@@ -30,9 +30,9 @@ export default class RequestModel extends Sequelize.Model {
       friend_id 
       from "request" 
       inner join "user" on (user_id = id)
- where friend_id =${user_id} 
+ where friend_id =:user_id
       
-    `, { type: sequelize.QueryTypes.SELECT });
+    `, { replacements: { user_id: +user_id }, type: sequelize.QueryTypes.SELECT });
   }
 }
 
