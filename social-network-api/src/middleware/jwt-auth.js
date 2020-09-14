@@ -4,19 +4,13 @@ import jwt from 'jsonwebtoken';
 const JWT_KEY = process.env.JWT_KEY;
 
 export default class JWTAuthMiddleware {
-  check = async (req, res, next) => {
+  getLoginPassword = async (req, res, next) => {
     const token = await this.getToken(req);
     try {
       let user = await this.decode(token);
-      if (user && user.hasOwnProperty('login') && user.hasOwnProperty('password')) {
-          let result = await AuthService.verify(user['login'], user['password']);
-        if (!result)
-        throw new ValidationError(500, '', 'user not found 1');
-       return true;
-      }
-      else {
-        throw new ValidationError(500, '', 'user not found');
-      }
+      if (user && user.hasOwnProperty('login') && user.hasOwnProperty('password')) 
+          return ({ login: user['login'], password: user['password'] })
+       return null;
     } catch (e) {
       throw e;
     }

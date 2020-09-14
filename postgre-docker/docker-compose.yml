@@ -18,3 +18,16 @@ services:
     restart: always
     ports:
       - 8095:8080
+  
+  redis:
+    image: 'redis:latest'
+    container_name: 'redis.social.network'
+    command: ['redis-server', '--appendonly', 'yes']
+    hostname: redis
+    volumes:
+      - ./docker/data/redis:/var/lib/redis/data
+    ports:
+      - '6380:6379'
+
+
+

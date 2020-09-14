@@ -18,10 +18,12 @@ export default class AuthService {
         where: { login: login, password: password },
         attributes: ["id"]
       });
-      if (user)
+      if (user) {
         return true;
+      }
       return false;
     } catch (e) {
+      console.log(e)
       throw Error(e);
     }
   }

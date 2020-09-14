@@ -1,7 +1,6 @@
 import BaseResponse from "./base-response";
 import ValidationError  from "../response-errors/validation-error";
-
-
+import AuthService from "../resources/auth/service";
 
 class AuthMiddleware extends BaseResponse {
     constructor() {
@@ -13,8 +12,16 @@ class AuthMiddleware extends BaseResponse {
     check = async (req, res, next) => {
         
         try {
-            const resutChecking = await this.authStrategy.check(req, res, next);
-            next();
+            const resutChecking = await this.authStrategy.getLoginPassword(req, res, next);
+            if (resutChecking) {
+                let result = await AuthService.verify(resutChecking.login, resutChecking.password);
+                if (!result)
+                    this.response(new ValidationError(500, '', 'user not found '), res, null);
+                else
+                    next();
+            }
+            else
+            this.response(new ValidationError(500, '', 'user not found '), res, null);
         }
         catch (error) {
             this.response(error,res,null)

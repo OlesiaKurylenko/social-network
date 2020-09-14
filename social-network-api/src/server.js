@@ -27,7 +27,6 @@ app.use("/api", authMiddleware.check, privateRoutes);
 
 export const start = async () => {
     await sequelize.authenticate();
-
     app.listen(PORT, () => {
         console.log(`Server is running on PORT: ${PORT}`); // mv later todo
     });
